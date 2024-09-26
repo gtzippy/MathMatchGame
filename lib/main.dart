@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -37,6 +38,7 @@ class _State extends State<MyApp> {
   late int _previousIndex;
   bool _hold = false;
   final player = AudioPlayer();
+  final assetsAudioPlayer = AssetsAudioPlayer();
 
   Future _showAlert(BuildContext context, String message) async {
     return showDialog(
@@ -154,7 +156,10 @@ class _State extends State<MyApp> {
     if(_hold){
       return;
     }
-    player.play(DeviceFileSource('/assets/buttonPress.mp3'));
+    player.play(AssetSource('bell.mp3'));
+    // AssetsAudioPlayer.newPlayer().open(
+    //   Audio('/assets/buttonPress.mp3'),
+    // );
     if(_areas[index].color!=Colors.yellow && _areas[index].color!=Colors.white) {
       if (_firstArea == null) {
         _firstArea = _areas[index];
@@ -216,7 +221,7 @@ class _State extends State<MyApp> {
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Add to 10"),
+        title: new Text("Click 2 numbers that add to 10!"),
       ),
       body: new Container(
         padding: new EdgeInsets.all(32.0),

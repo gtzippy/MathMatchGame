@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^5.2.1
+  audioplayers: ^6.1.0
+  assets_audio_player: ^3.0.8
 
 
 
@@ -66,6 +67,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
 assets:
   - assets/buttonPress.mp3
+  - assets/bell.mp3
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
