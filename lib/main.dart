@@ -29,6 +29,7 @@ class MyApp extends StatefulWidget {
 }
 
 bool firstClicked = false;
+var size = 14;
 class _State extends State<MyApp> {
 
   late int _location;
@@ -60,7 +61,7 @@ class _State extends State<MyApp> {
     var rng = new Random();
     var rnv = new Random();
     setState(() {
-      for (int i = 0; i < 12; i++) {
+      for (int i = 0; i < size; i++) {
         _areas[i].color = Colors.blue;
         int randomNumber;
         do{
@@ -69,16 +70,16 @@ class _State extends State<MyApp> {
         assignedNumbers.add(randomNumber);
         _areas[i].name = '${randomNumber}';
         int randomValue;
-        randomValue = rnv.nextInt(12);
+        randomValue = rnv.nextInt(size);
         // do{
-        if(assignedValues.length<12) {
+        if(assignedValues.length<size) {
 
             while (assignedValues.contains(randomValue)) {
-              randomValue = rnv.nextInt(12);
+              randomValue = rnv.nextInt(size);
             }
             assignedValues.add(randomValue);
 
-          _areas[i].value = (randomValue==11 ? 5: randomValue);
+          _areas[i].value = (randomValue==size-1 ? 5: randomValue);
         }
       }
     });
@@ -105,7 +106,7 @@ class _State extends State<MyApp> {
     List<int> assignedValues = [];
     var rng = new Random();
     var rnv = new Random();
-    for(int i = 0; i < 12; i++){
+    for(int i = 0; i < size; i++){
       int randomNumber;
       do{
         randomNumber = rng.nextInt(8) + 1;
@@ -113,15 +114,15 @@ class _State extends State<MyApp> {
       assignedNumbers.add(randomNumber);
       int randomValue;
       // d
-        randomValue = rnv.nextInt(12);
+        randomValue = rnv.nextInt(size);
         while(assignedValues.contains(randomValue)){
-          randomValue = rnv.nextInt(12);
+          randomValue = rnv.nextInt(size);
         }
         assignedValues.add(randomValue);
 
       // } while (assignedValues.length < 11);
       //assignedValues.add(randomValue);
-      _areas.add(new Area (index: i, name: '${randomNumber}', value: (randomValue==11 ? 5 : randomValue))) ;
+      _areas.add(new Area (index: i, name: '${randomNumber}', value: (randomValue== size-1 ? ((size/2)-1).floor() : randomValue))) ;
     }
 
 
@@ -167,7 +168,7 @@ class _State extends State<MyApp> {
       else {
         if (_firstArea != _areas[index] &&
             // _firstArea?.name == _areas[index].name) {
-            _firstArea!.value + _areas[index].value == 10) {
+            _firstArea!.value + _areas[index].value == size-2) {
           print(_areas[index].name);
           setState(() {
             _firstArea?.color = Colors.yellow;
@@ -199,14 +200,21 @@ class _State extends State<MyApp> {
         _firstArea = null;
       }
       bool done = true;
-      for (int i = 0; i < 12; i++) {
+      int notYellow = size;
+      for (int i = 0; i < size; i++) {
+        if (_areas[i].color == Colors.yellow) {
+          notYellow--;
+        }
         if (_areas[i].color != Colors.yellow) {
           done = false;
         }
       }
-      if (done) {
+      if(notYellow < 2){
         _showAlert(context, "You Win!");
       }
+      // if (done) {
+      //   _showAlert(context, "You Win!");
+      // }
     }
   }
 
@@ -216,14 +224,14 @@ class _State extends State<MyApp> {
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Add to 10"),
+        title: new Text('Click 2 numbers that add to ${size-2}'),
       ),
       body: new Container(
         padding: new EdgeInsets.all(32.0),
         child: new Center(
             child: new GridView.count(
               crossAxisCount: 4,
-              children: new List<Widget>.generate(12, _generate),
+              children: new List<Widget>.generate(size, _generate),
             )
         ),
       ),
